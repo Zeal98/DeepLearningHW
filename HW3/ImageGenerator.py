@@ -18,6 +18,8 @@ os.makedirs("TestImages/CIFER10", exist_ok=True)
 os.makedirs("TestImages/DCGAN", exist_ok=True)
 os.makedirs("TestImages/WGAN", exist_ok=True)
 os.makedirs("TestImages/ACGAN", exist_ok=True)
+os.makedirs("TestImages/Noise", exist_ok=True)
+os.makedirs("TestImages/DCGAN_2", exist_ok=True)
 
 class Config():
     batch_size = 32
@@ -46,6 +48,7 @@ dataloader = t.utils.data.DataLoader(dataset,
 
 
 def cifer10(save_path, num_sample):
+    os.makedirs(save_path[len(save_path)-1], exist_ok=True)
     for ii, data in enumerate(dataloader):
         image, _ = data
         image = Variable(image)
@@ -56,8 +59,9 @@ def cifer10(save_path, num_sample):
     return save_path
 
 
-def dcgan(save_path, num_sample):
-    netg = DCGAN.Generator(save_path="Modules/weights/dc_g19")
+def dcgan(save_path, num_sample, module_path="./Modules/weights/dcg"):
+    os.makedirs(save_path[len(save_path)-1], exist_ok=True)
+    netg = DCGAN.Generator(save_path=module_path)
     if opt.gpu:
         netg.cuda()
     for ii in range(int(num_sample/opt.batch_size)):
@@ -71,8 +75,9 @@ def dcgan(save_path, num_sample):
     return save_path
 
 
-def wgan(save_path, num_sample):
-    netg = WGAN.Generator(save_path="Modules/weights/w_g49.pth")
+def wgan(save_path, num_sample, module_path="./Modules/weights/wg"):
+    os.makedirs(save_path[len(save_path)-1], exist_ok=True)
+    netg = WGAN.Generator(save_path=module_path)
     if opt.gpu:
         netg.cuda()
     for ii in range(int(num_sample/opt.batch_size)):
@@ -86,8 +91,9 @@ def wgan(save_path, num_sample):
     return save_path
 
 
-def acgan(save_path, num_sample):
-    netg = ACGAN.Generator(save_path="Modules/weights/ac_g19")
+def acgan(save_path, num_sample, module_path="./Modules/weights/acg"):
+    os.makedirs(save_path[len(save_path)-1], exist_ok=True)
+    netg = ACGAN.Generator(save_path=module_path)
     if opt.gpu:
         netg.cuda()
     for ii in range(int(num_sample/opt.batch_size)):
@@ -105,9 +111,13 @@ def acgan(save_path, num_sample):
 if __name__ == "__main__":
     num_images = 2560
     cifer10("TestImages/CIFER10/", num_images)
-    dcgan("TestImages/DCGAN/", num_images)
-    wgan("TestImages/WGAN/", num_images)
-    acgan("TestImages/ACGAN/", num_images)
+    dcgan("TestImages/DCGAN/", num_images, "Modules/weights/dc_g19")
+    wgan("TestImages/WGAN/", num_images, "Modules/weights/w_g49.pth")
+    acgan("TestImages/ACGAN/", num_images, "Modules/weights.ac_g19")
+    dcgan("TestImages/DCGAN_2/", num_images, "Modules/weights/dc_g39")
+    dcgan("TestImages/Noise/", num_images, "Modules/weights/dcg")
+
+
 
 
 
