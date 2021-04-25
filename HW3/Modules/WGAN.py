@@ -191,7 +191,10 @@ def train(dataloader, netg_path, netd_path, num_epochs=50):
         plt.show()
         t.save(netd.state_dict(), netd_path)
         t.save(netg.state_dict(), netg_path)
-        save_image(fake_u.data[:32], "images/WGAN/%d.png" % epoch, nrow=8, normalize=True)
+        if ((epoch + 1) % 10 == 0):
+            t.save(netd.state_dict(), 'Images/WGAN/w_d%s' % epoch)
+            t.save(netg.state_dict(), 'Images/WGAN/w_g%s' % epoch)
+        save_image(fake_u.data[:32], "Images/WGAN/%d.png" % epoch, nrow=8, normalize=True)
 
     t.save(netd.state_dict(), netd_path)
     t.save(netg.state_dict(), netg_path)
