@@ -43,7 +43,7 @@ dataloader = t.utils.data.DataLoader(dataset,
                                      num_workers=opt.workers)
 
 if __name__ == "__main__":
-    d_path = ["./Modules/weights/dcd", "./Modules/weights.wd", "./Modules/weights/acd"]
+    d_path = ["./Modules/weights/dcd", "./Modules/weights/wd", "./Modules/weights/acd"]
     g_path = ["./Modules/weights/dcg", "./Modules/weights/wg", "./Modules/weights/acg"]
 
     # WGAN.train(dataloader, netg_path=g_path[1], netd_path=d_path[1], num_epochs=1)
